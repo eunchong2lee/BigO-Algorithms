@@ -50,4 +50,4 @@ console.log(mergeSort([10,24,76,73,72,1,9]));
 // Best O(n log n)
 // average O(n log n)
 // Worst O(n log n)
-// Space O(n);
+// Space O(n)
