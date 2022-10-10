@@ -6,3 +6,4 @@
 1. BigO
 2. Object&Array BigO
 3. Algorithms Study
+4. 자료 구조
