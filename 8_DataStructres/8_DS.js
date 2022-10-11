@@ -1,22 +1,12 @@
-// ** 이진 힙 BINARY HEAPS **
-// 보편적으로 MAX BINARY HEAP 과 MIN BINARY HEAP 두개의 종류가 있다. 
-// 힙은 트리 구조의 일종이다.
-// 최대 이진 힙에서는 부모 노드가 항상 자식 노드보다 큰 값을 가진다.
-// 왼쪽이나 오른쪽 상관없이 한 레벨에 있는 자식 노드보다는 항상 부모 노드가 크다.
-// 트리와 같이 최대 두개의 자식 노드를 가진다.
-// 이진 탐색 트리와는 다르게 왼쪽과 오른쪽에는 순서가 존재하지 않는다.
-// 만약에 새로운 값이 부모보다 크다면 부모랑 자식이랑 위치를 바꾼다.
-
-
-// 최대 이진 힙 MAX BINARY HEAP
-
-class MaxBinaryHeap {
+// ** PriorityQueue 우선순위 큐 **
+class PriorityQueue {
     constructor() {
-        this.values = [41,39,33,18,27,12];
+        this.values = [];
     }
 
-    insert(element) {
-        this.values.push(element);
+    enqueue(val, priority) {
+        let newNode = new Node(val, priority);
+        this.values.push(newNode);
         this.bubbleUp();
     }
 
@@ -26,21 +16,21 @@ class MaxBinaryHeap {
         while(idx > 0) {
             let parentIdx = Math.floor((idx - 1)/2);
             let parent = this.values[parentIdx];
-            if(element <= parent) break;
+            if(element.priority >= parent.priority) break;
             this.values[parentIdx] = element;
             this.values[idx] = parent;
             idx = parentIdx;
         }
     }
 
-    extractMax() {
-        const max = this.values[0];
+    dequeue() {
+        const min = this.values[0];
         const end = this.values.pop();
         if(this.values.length > 0 ) {
             this.values[0] = end;
             this.sinkDown();
         }
-        return max;
+        return min;
     }
 
     sinkDown() {
@@ -55,16 +45,16 @@ class MaxBinaryHeap {
 
             if(leftChildIdx < length) {
                 leftChild = this.values[leftChildIdx];
-                if(leftChild> element) {
+                if(leftChild.priority < element.priority) {
                     swap = leftChildIdx;
                 }
             }
-
+            
             if(rightChildIdx < length) {
                 rightChild = this.values[rightChildIdx];
                 if(
-                    (swap ===null &&rightChild> element) || 
-                    (swap !== null && rightChild > leftChild)
+                    (swap ===null &&rightChild.priority < element.priority) || 
+                    (swap !== null && rightChild.priority < leftChild.priority)
                 ){
                     swap = rightChildIdx;
                 }
@@ -79,13 +69,26 @@ class MaxBinaryHeap {
     }
 }
 
-let heap = new MaxBinaryHeap();
-heap.insert(55);
-console.log(heap);
-console.log(heap.extractMax());
-console.log(heap);
-console.log(heap.extractMax());
-console.log(heap);
+class Node {
+    constructor(val,priority) {
+        this.val= val;
+        this.priority = priority;
+    }
+}
+
+let ER = new PriorityQueue();
+ER.enqueue("common cold", 5)
+ER.enqueue("gunshot wound", 1)
+ER.enqueue("high fever", 4)
+ER.enqueue("broken arm", 2)
+ER.enqueue("glass in foot", 3)
+console.log(ER);
+ER.dequeue()
+console.log(ER);
+ER.dequeue()
+console.log(ER);
+ER.dequeue()
+console.log(ER);
 
 // bigO
 // insertion O(log N)
